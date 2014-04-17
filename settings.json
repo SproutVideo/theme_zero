@@ -1,0 +1,48 @@
+{
+  "name":"Theme Zero",
+  "author":{
+    "name": "SproutVideo",
+    "email": "support@sproutvideo.com",
+    "website": "http://sproutvideo.com"
+  },
+  "version": "1.0.0",
+  "settings":[
+    {
+      "name": "colors",
+      "label": "Colors",
+      "type": "group",
+      "description": "Select the background, text, and link colors you'd like to use for your site.",
+      "settings": [
+        {
+          "name": "background_color",
+          "label": "Background Color",
+          "type": "color",
+          "default": "FFFFFF",
+          "description":"The background color for the theme."
+        },
+        {
+          "name": "text_color",
+          "label": "Text Color",
+          "type": "color",
+          "default": "313131",
+          "description": "The text color for the theme."
+        },
+        {
+          "name": "link_color",
+          "label": "Link Color",
+          "type": "color",
+          "default": "57a000",
+          "description":"The link color for the theme."
+        }
+      ]
+    },
+    {
+      "name": "videos_per_page",
+      "label": "Videos Per Page",
+      "description": "Select the number of videos you'd like to be displayed on a video listings page.",
+      "type": "select",
+      "default":  12,
+      "options": [12, 24, 48]
+    }
+  ]
+}

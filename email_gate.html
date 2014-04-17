@@ -1,0 +1,24 @@
+<section class="gate">
+  <div class="grid">
+    <div class="unit whole">
+      <h2>Please enter your email address to watch this video</h2>
+      {% if error_message %}
+      <div class="grid">
+        <div class="unit whole align-center">
+          <div class="alert alert-error">{{error_message}}</div>
+        </div>
+      </div>
+      {% endif %}
+      {% email_form %}
+        <div class="grid">
+          <div class="unit four-fifths">
+            <div class="input-wrapper"><input type="email" id="email" name="email" placeholder="Email Address"></div>
+          </div>
+          <div class="unit one-fifth align-center">
+            <button type="submit" class="button">Watch</button>
+          </div>
+        </div>
+      {% endemail_form %}
+    </div>
+  </div>
+</section>

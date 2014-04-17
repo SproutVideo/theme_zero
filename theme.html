@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>{{page_title}}{% if page_title %} | {% endif %}{{site_name}}</title>
+
+  {% if favicon_url %}
+  <link rel="shortcut icon" href="{{favicon_url}}" />
+  {% endif %}
+
+
+  <link rel="alternate" type="application/rss+xml" title="{{site_name}} - Videos" href="/rss.xml" />
+
+  {% if video %}
+  <!-- social media meta tags -->
+  <meta name="description" content='{% if video.description %}{{video.description | strip_html | strip_newlines | replace: "' ", "\ '"}}{% endif %}'>
+  {% if facebook_sharing %}
+  {% facebook_open_graph %}
+  {% endif %}
+
+  {% if twitter_sharing %}
+  {% twitter_card %}
+  {% endif %}
+  <link href='http://sproutvideo.com/oembed.json?url={{ "http://sproutvideo.com/videos/" | append: video.uid | encode_uri_component }}' rel='alternate' title='{{video.title}}' type='application/json+oembed'>
+  <link href='http://sproutvideo.com/oembed.xml?url={{ "http://sproutvideo.com/videos/" | append: video.uid | encode_uri_component }}' rel='alternate' title='{{video.title}}' type='text/xml+oembed'>
+  {% endif %}
+
+  <meta name="author" content="{{site_name}}">
+
+  {% google_analytics %}
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script>jQuery.browser={},jQuery.browser.mozilla=/mozilla/.test(navigator.userAgent.toLowerCase())&&!/webkit/.test(navigator.userAgent.toLowerCase()),jQuery.browser.webkit=/webkit/.test(navigator.userAgent.toLowerCase()),jQuery.browser.opera=/opera/.test(navigator.userAgent.toLowerCase()),jQuery.browser.msie=/msie/.test(navigator.userAgent.toLowerCase());</script>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-history/1.9/jquery.history.min.js"></script>
+  <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Montserrat:700|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/assets/theme_zero.css">
+  {% if theme.settings.background_color || theme.settings.link_color || theme.settings.text_color %}
+  <style type="text/css">
+    {% if theme.settings.background_color %}
+    body {background-color: #{{theme.settings.background_color}}}
+    {% endif %}
+    {% if theme.settings.text_color %}
+    body {color: #{{theme.settings.text_color}}}
+    {% endif %}
+    {% if theme.settings.link_color %}
+    a {color: #{{theme.settings.link_color}}}
+    .button:hover, .button:focus {border: 1px solid {{theme.settings.link_color | rgba: 0.5}};box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 0 10px {{theme.settings.link_color | rgba: 0.3}}}
+    .pagination>ul>li.active>a {background-color:#{{theme.settings.link_color}};border-color:#{{theme.settings.link_color}}}
+    a.video-thumbnail:hover{border-color:#{{theme.settings.link_color}}}
+    .show-nav{background-color:#{{theme.settings.link_color}}}
+    ul.account-menu li a.selected{background-color:#{{theme.settings.link_color}}}
+    {% endif %}
+  </style>
+  {% endif %}
+
+  {% if custom_css %}
+  <style type="text/css">
+    {{ custom_css | strip_html }}
+  </style>
+  {% endif %}
+</head>
+<body class="wrap{% if video %} video-{{video.uid}}{% endif %}">
+  <header>
+    <div class="grid">
+      <div class="unit three-fifths center-on-mobiles logo-block {% unless disable_full_site %}has-nav{%endunless%}">
+        <div class="logo-wrapper">
+          {% if logo_url %}{% unless disable_full_site %}<a href="/videos">{% endunless %}<img class ="logo" src="{{logo_url}}">{% unless disable_full_site %}</a>{% endunless %}{% else %}
+          <h2>{{site_name}}</h2>{%endif%}
+        </div>
+        {% unless disable_full_site %}
+        <div class="hide-on-desktops show-nav-wrapper">
+          <a class="mobile-nav show-nav">Show Navigation</a>
+        </div>
+        {% endunless %}
+      </div>
+      <div class="unit two-fifths align-right {% unless disable_full_site %}hide-on-mobiles{%endunless%} center-on-mobiles account-block">
+        {% if has_logins %} {% if logged_in_user %} Logged in as <a href="#" class="dropdown-toggle">{{logged_in_user.email}} &#9660;</a>
+        <ul class='sub-nav'>
+          <li><a href='/account'>Account</a>
+          </li>
+          <li><a href="/logout">Log out</a>
+          </li>
+        </ul>
+        {% else %}
+        <a href="/login">Log In</a>
+        {% endif %} {% endif %}
+      </div>
+    </div>
+    {% unless disable_full_site %}
+    <div class="grid  hide-on-mobiles site-nav">
+      <div class="unit three-fifths">
+        <ul class="nav">
+          <li>
+            <a href="/videos">Home</a>
+          </li>
+          {% if about %}
+          <li>
+            <a href="/about">About</a>
+          </li>
+          {% endif %} {% if contact %}
+          <li>
+            <a href="/contact">Contact</a>
+          </li>
+          {% endif %} {% if categories.size > 0 %}
+          <li>
+            <a href="#" class="dropdown-toggle">Categories &#9660;</a>
+            <ul class="sub-nav">
+              {% for tag in categories %}
+              <li>
+                <a href="{{ tag.url }}">{{tag.name}}</a>
+              </li>
+              {% endfor %}
+            </ul>
+          </li>
+          {% endif %} {% if has_logins %}
+          <li class="hide-on-desktops">
+            <a href="#" class="dropdown-toggle">Account &#9660;</a>
+            <ul class="sub-nav">
+              <li>
+                {% if logged_in_user %}
+                <a href="/account">{{logged_in_user.email}}</a>
+                {% else %}
+                <a href="/login">Log In</a>
+                {% endif %}
+              </li>
+              {% if logged_in_user %}
+              <li>
+                <a href="/logout">Log out</a>
+              </li>
+              {% endif %}
+          </li>
+          {% endif %}
+          </ul>
+      </div>
+      <div class="unit two-fifths align-right">
+        <form action="/videos" method="get">
+          <div class="search-wrapper">
+            <input type="search" name="q" placeholder="Search Videos">
+          </div>
+        </form>
+      </div>
+    </div>
+    {% endunless %}
+  </header>
+  {{ content_for_layout }}
+  <footer>
+    <div class="grid">
+      <div class="unit half center-on-mobiles">
+        <p>&copy; {{ now | date: "%Y" }} {{site_name}}</p>
+      </div>
+      {% if show_sv_badge %}
+      <div class="unit half pull-right align-right center-on-mobiles">
+        <p>
+          <a href="http://www.sproutvideo.com" title="Video hosting powered by SproutVideo" target="_blank">
+            <img width="109" src="/assets/sv_logo_small@2x.png">
+          </a>
+        </p>
+      </div>
+      {% endif %}
+    </div>
+  </footer>
+  <script type="text/javascript">$(function(){$(".dropdown-toggle").click(function(){return $(this).parent().find(".sub-nav").toggle(),!1}),$(".show-nav").click(function(){return $(".site-nav").toggleClass("show-mobile-nav"),!1})});</script>
+  <!--[if lte IE 9]><script type="text/javascript">$('[placeholder]').focus(function(){var input = $(this);if (input.val() == input.attr('placeholder')){input.val('');input.removeClass('placeholder');}}).blur(function(){var input = $(this);if (input.val() == '' || input.val() == input.attr('placeholder')){input.addClass('placeholder');input.val(input.attr('placeholder'));}}).blur();</script><style type="text/css">.placeholder{color: #aaa}</style><![endif]-->
+</body>
+</html>

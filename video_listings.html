@@ -1,0 +1,55 @@
+<section class="listings-header">
+	<div class="grid">
+		<div class="unit whole">
+			{% if tag %}
+			<div class="tag-name">
+				<h2>{{tag.name}} Videos</h2>
+			</div>
+			{% endif %}
+			{% if search_term %}
+			<div class="search-term">
+				<h2>Searched For "{{search_term}}"</h2>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</section>
+<section class="videos">
+	{%if videos.size > 0 %}
+	{% paginate videos by theme.settings.videos_per_page %}
+		{% for video in videos %}
+			{% capture mod %}{% cycle '0', '1', '2' %}{% endcapture %}
+			{% if mod == '0' %}
+			<div class="grid">
+			{% endif %}
+			<div class="unit one-third video-item">
+				<a href="{{ video.url }}" class="video-thumbnail">
+					<img width="507" height="285" src="{{ video.poster_frame_url | poster_frame_url: 507, 285 }}" alt="{{video.title}}" style="max-width: 100%;height:auto"/>
+				</a>
+				<b>{{video.title}}</b>
+			</div>
+			{% if mod == '2' %}
+			</div>
+			{% endif %}
+		{% endfor %}
+		</div>
+		<div class="grid">
+			<div class="unit whole center-on-mobiles">
+				{% if paginate.pages > 1 %}
+				{{paginate | default_pagination}}
+				{% endif %}
+			</div>
+		</div>
+	{% endpaginate %}
+	{% else %}
+	<div class="grid">
+		<div class="unit whole align-center">
+			<h4>No Videos.</h4>
+		</div>
+	</div>
+	{% endif %}
+</section>
+
+{% if disqus_shortname %}
+{% disqus_comment_count %}
+{% endif %}

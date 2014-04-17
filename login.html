@@ -1,0 +1,43 @@
+<section class="gate">
+  <div class="grid">
+    <div class="unit whole">
+      {% if login_context == 'video' %}
+        <h2>Please log in to watch this video</h2>
+      {% else %}
+        <h2>Please log in</h2>
+      {% endif %}
+      {% if error_message %}
+      <div class="grid">
+        <div class="unit whole align-center">
+          <div class="alert alert-error">{{error_message}}</div>
+        </div>
+      </div>
+      {% endif %}
+      {% if success_message %}
+      <div class="grid">
+        <div class="unit whole align-center">
+          <div class="alert alert-success">{{success_message}}</div>
+        </div>
+      </div>
+      {% endif %}
+      {% login_form %}
+        <div class="grid">
+          <div class="unit two-fifths">
+            <div class="input-wrapper"><input type="email" id="email" name="email" placeholder="Email"></div>
+          </div>
+          <div class="unit two-fifths">
+            <div class="input-wrapper"><input type="password" id="password" name="password" placeholder="Password"></div>
+          </div>
+          <div class="unit one-fifth align-center">
+            <button type="submit" class="button">Sign in &amp; watch</button>
+          </div>
+        </div>
+      {% endlogin_form %}
+      {% if allow_self_management %}
+      <p>
+        <a href="/password_resets/new">Forgot Password?</a>
+      </p>
+      {% endif %}
+    </div>
+  </div>
+</section>

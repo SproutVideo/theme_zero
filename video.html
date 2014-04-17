@@ -1,0 +1,109 @@
+<section class="video">
+  <div class="grid no-gutters">
+    <div class="unit whole">
+      <div class="video-wrapper" style="padding-top: {{video.aspect}}%">
+        {% video_player width: 100%, height: 100% %}
+      </div>
+    </div>
+  </div>
+</section>
+<section class="video-info">
+  <div class="grid">
+    <div class="unit whole">
+      <div class="grid">
+        <div class="unit {% if facebook_sharing or twitter_sharing or pinterest_sharing or linkedin_sharing or google_plus_sharing or downloads != empty %}two-thirds{% else %}whole{% endif %}">
+          <div class="video-title">
+            <h1>{{video.title}}</h1>
+          </div>
+          <div class="video-description">
+            <p>{{video.description | newline_to_br | link}}</p>
+          </div>
+          {% if video.tags.size > 0 and disable_full_site == null %}
+          <div class="video-tags">
+            Tags:
+            {% for tag in video.tags %}
+                <a href="{{ tag.url }}">{{tag.name}}</a>
+                {% if forloop.last == false %}
+                    ,
+                {% endif %}
+            {% endfor %}
+          </div>
+          {% endif %}
+          {% if disqus_shortname %}
+          <div class="comments">
+            <h3>Comments</h3>
+            {% disqus_thread %}
+          </div>
+          {% endif %}
+        </div>
+        {% if facebook_sharing or twitter_sharing or pinterest_sharing or linkedin_sharing or google_plus_sharing or video.downloads != empty %}
+        <div class="unit one-third">
+          {%if facebook_sharing or twitter_sharing or pinterest_sharing or linkedin_sharing or google_plus_sharing %}
+          <div class="social-buttons">
+            <h3>Share</h3>
+            <ul class="share-group">
+              {% if facebook_sharing %}
+              <li>
+                <button onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(location.href), 'facebook-share-dialog', 'width=626,height=436'); return false;" title="Share to Facebook">
+                  <img src='/assets/themes/theme_zero/facebook.png'>
+                  <span>Facebook</span>
+                </button>
+              </li>
+              {% endif %}
+              {%if twitter_sharing %}
+              <li>
+                <button onclick="window.open('http://twitter.com/intent/tweet?url=' + encodeURIComponent(location.href) + '&text={{video.title | encode_uri_component}}:', 'twitter-share-dialog', 'width=550,height=420'); return false;" title="Share to Twitter">
+                  <img src='/assets/themes/theme_zero/twitter.png'>
+                  <span>Twitter</span>
+                </button>
+              </li>
+              {% endif %}
+              {% if google_plus_sharing %}
+              <li>
+                <button onclick="window.open('https://plus.google.com/u/0/share?url=' + encodeURIComponent(location.href), 'gplus-share-dialog', 'width=620,height=620'); return false;" title="Share to Google+">
+                  <img src='/assets/themes/theme_zero/google+.png'>
+                  <span>Google+</span>
+                </button>
+              </li>
+              {% endif %}
+              {% if pinterest_sharing %}
+              <li>
+                <button onclick="window.open('http://pinterest.com/pin/create/button/?url=' + encodeURIComponent(location.href) +'&description={{video.title | encode_uri_component}}&is_video=true&media={{video.poster_frame_url | poster_frame_url | encode_uri_component}}', 'pinterest-share-dialog', 'width=1024,height=650'); return false;" title="Share to Pinterest">
+                  <img src='/assets/themes/theme_zero/pinterest.png'>
+                  <span>Pinterest</span>
+                </button>
+              </li>
+              {% endif %}
+              {% if linkedin_sharing %}
+              <li>
+                <button onclick="window.open('http://www.linkedin.com/shareArticle?url=' + encodeURIComponent(location.href) + '&title={{video.title | encode_uri_component}}&summary={{video.description | strip_newlines | strip_html | truncatewords: 50 |  encode_uri_component}}', 'linkedin-share-dialog', 'width=1024,height=650'); return false;" title="Share to LinkedIn">
+                  <img src='/assets/themes/theme_zero/linkedin.png'>
+                  <span>LinkedIn</span>
+                </button>
+              </li>
+              {% endif %}
+            </ul>
+          </div>
+          {% endif %}
+          {% if video.downloads != empty %}
+          <div class="download-links">
+            <h3>Download</h3>
+            <ul>
+              {% if video.downloads.source_url %}
+              <li><a href="{{video.downloads.source_url}}" title="Download Source Video" class="button">Source</a></li>
+              {% endif %}
+              {% if video.downloads.hd_url %}
+              <li><a href="{{video.downloads.hd_url}}" title="Download HD Video" class="button">HD</a></li>
+              {% endif %}
+              {% if video.downloads.sd_url %}
+              <li><a href="{{video.downloads.sd_url}}" title="Download SD Video" class="button">SD</a></li>
+              {% endif %}
+            </ul>
+          </div>
+          {%endif%}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
